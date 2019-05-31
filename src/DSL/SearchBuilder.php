@@ -3,6 +3,7 @@
 namespace Sleimanx2\Plastic\DSL;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Traits\Macroable;
 use ONGR\ElasticsearchDSL\Highlight\Highlight;
 use ONGR\ElasticsearchDSL\Query\Compound\BoolQuery;
@@ -828,6 +829,21 @@ class SearchBuilder
     {
         $page = $this->getCurrentPage($current);
 
+        $from = $limit * ($page - 1);
+        $size = $limit;
+
+        $result = $this->from($from)->size($size)->get();
+
+        return new PlasticPaginator($result, $size, $page);
+    }
+    
+    public function advanced_paginate($limit = 25, $limitPage, $current = null)
+    {
+        $page = $this->getCurrentPage($current);
+        if($limitPage<$page && Auth::check() == false)
+        {
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+        }
         $from = $limit * ($page - 1);
         $size = $limit;
 
