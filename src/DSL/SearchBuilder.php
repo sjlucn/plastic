@@ -849,7 +849,7 @@ class SearchBuilder
 
         $result = $this->from($from)->size($size)->get();
 
-        return new PlasticPaginator($result, $size, $page);
+        return new PlasticPaginator($result, $size, $page, $limitPage);
     }
 
     /**
