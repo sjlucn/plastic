@@ -3,7 +3,7 @@
 namespace Sleimanx2\Plastic;
 
 use Illuminate\Pagination\LengthAwarePaginator;
-
+use Illuminate\Support\Facades\Auth;
 class PlasticPaginator extends LengthAwarePaginator
 {
     /**
